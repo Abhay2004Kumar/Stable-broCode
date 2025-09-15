@@ -8,6 +8,7 @@ import fs from "fs";
 // --- HACK TO FORCE FILE INCLUSION ---
 // This forces the Next.js compiler to bundle the 'starters' directory.
 // We expect a TypeScript warning here because of the `if (false)`.
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 if (typeof process !== 'undefined' && false) {
   const startersDir = path.join(process.cwd(), 'starters');
