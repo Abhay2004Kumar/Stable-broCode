@@ -1,8 +1,22 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Loader2 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 export default function Home() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGetStarted = () => {
+    setIsLoading(true);
+    // Small delay to show loading state before navigation
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 500);
+  };
    
   return (
     <div className=" z-20 flex flex-col items-center justify-start min-h-screen py-2 mt-10">
@@ -22,12 +36,25 @@ export default function Home() {
         It is designed to help you write, debug, and optimize your code
         efficiently.
       </p>
-      <Link href={"/dashboard"}>
-        <Button variant={"brand"} className="mb-4" size={"lg"}>
-          Get Started
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </Button>
-      </Link>
+      <Button 
+        variant={"brand"} 
+        className="mb-4" 
+        size={"lg"}
+        onClick={handleGetStarted}
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Loading...
+          </>
+        ) : (
+          <>
+            Get Started
+            <ArrowUpRight className="w-3.5 h-3.5 ml-2" />
+          </>
+        )}
+      </Button>
     </div>
   );
 }
