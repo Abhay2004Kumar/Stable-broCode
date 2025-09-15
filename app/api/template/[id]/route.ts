@@ -3,6 +3,9 @@ import { db } from "@/lib/db";
 import { templatePaths } from "@/lib/template";
 import path from "path";
 import { NextRequest } from "next/server";
+import fs from "fs";
+
+
 
 // Helper function to ensure valid JSON
 function validateJsonStructure(data: unknown): boolean {
@@ -13,6 +16,11 @@ function validateJsonStructure(data: unknown): boolean {
     console.error("Invalid JSON structure:", error);
     return false;
   }
+}
+
+if (typeof process !== 'undefined' && false) {
+  const startersDir = path.join(process.cwd(), 'starters');
+  fs.readdirSync(startersDir);
 }
 
 export async function GET(
