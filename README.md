@@ -2,7 +2,7 @@
 
 A modern, feature-rich online code editor with WebContainer integration, AI-powered assistance, and multi-framework support.
 
-![BroCode Editor Preview](https://github.com/Abhay2004Kumar/BroCOde/blob/main/public/og.png?raw=true)
+
 
 ## ✨ Features
 
@@ -15,6 +15,26 @@ A modern, feature-rich online code editor with WebContainer integration, AI-powe
 - **Themes**: Dark/Light mode support
 - **File Explorer**: Intuitive file management
 - **Responsive Design**: Works on desktop and tablet devices
+
+## 📸 Screenshots
+
+<div align="center">
+  <h3>🎨 Editor Interface</h3>
+  <img src="Screenshot from 2025-09-14 20-19-07.png" alt="Editor Interface" width="80%">
+  
+ 
+  
+  <h3>💬 AI Chat Assistant</h3>
+  <img src="Screenshot from 2025-09-14 20-28-51.png" alt="AI Chat Assistant" width="80%">
+  
+  <h3>📁 Dashboard</h3>
+  <img src="Screenshot from 2025-09-14 20-29-12.png" alt="File Explorer" width="80%">
+  
+  <h3>▶️ Demo Video</h3>
+  <p>Watch the demo video on Google Drive: <a href="https://drive.google.com/file/d/1O47CElx0LnMNmgOK0WhQFo0r2wppQ0kw/view" target="_blank">BroCode Editor Demo</a></p>
+
+ 
+</div>
 
 ## 🛠 Tech Stack
 
@@ -41,7 +61,7 @@ A modern, feature-rich online code editor with WebContainer integration, AI-powe
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Abhay2004Kumar/BroCOde.git
+   git clone https://github.com/Abhay2004Kumar/Stable-broCode.git
    cd BroCOde
    ```
 
