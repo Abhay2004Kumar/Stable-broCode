@@ -13,5 +13,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/template/**/*": {
+      "includeFiles": "starters/**"
+    }
+  }
 }
