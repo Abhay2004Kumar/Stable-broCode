@@ -5,7 +5,15 @@ import path from "path";
 import { NextRequest } from "next/server";
 import fs from "fs";
 
-
+// --- HACK TO FORCE FILE INCLUSION ---
+// This forces the Next.js compiler to bundle the 'starters' directory.
+// We expect a TypeScript warning here because of the `if (false)`.
+// @ts-ignore
+if (typeof process !== 'undefined' && false) {
+  const startersDir = path.join(process.cwd(), 'starters');
+  fs.readdirSync(startersDir);
+}
+// --- END OF HACK ---
 
 // Helper function to ensure valid JSON
 function validateJsonStructure(data: unknown): boolean {
@@ -18,15 +26,6 @@ function validateJsonStructure(data: unknown): boolean {
   }
 }
 
-// --- HACK TO FORCE FILE INCLUSION ---
-// This forces the Next.js compiler to bundle the 'starters' directory.
-// We expect a TypeScript warning here because of the `if (false)`.
-// @ts-expect-error Unreachable code is intentional for Vercel build process
-if (typeof process !== 'undefined' && false) {
-  const startersDir = path.join(process.cwd(), 'starters');
-  fs.readdirSync(startersDir);
-}
-// --- END OF HACK ---
 
 export async function GET(
   request: NextRequest,
