@@ -15,7 +15,7 @@
     }
   ],
   "functions": {
-    "app/api/template/**/*.ts": {
+    "app/api/template/[id]/route.ts": {
       "includeFiles": "starters/**"
     }
   }
