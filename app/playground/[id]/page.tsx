@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { useState, useCallback } from "react";
 import { Separator } from "@/components/ui/separator";
+import { generateFileId } from "@/features/playground/libs";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { TemplateFileTree } from "@/features/playground/components/playground-explorer";
 import type { TemplateFile } from "@/features/playground/libs/path-to-json";
@@ -48,6 +49,8 @@ import { useWebContainer } from "@/features/webcontainers/hooks/useWebContainer"
 import { TemplateFolder } from "@/features/playground/types";
 import { findFilePath } from "@/features/playground/libs";
 import { ConfirmationDialog } from "@/features/playground/components/dialogs/conformation-dialog";
+
+
 
 const MainPlaygroundPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -110,6 +113,96 @@ const MainPlaygroundPage: React.FC = () => {
       setTemplateData(templateData);
     }
   }, [templateData, setTemplateData, id]);
+
+ // In your MainPlaygroundPage component, use this corrected useEffect.
+
+// Replace your watcher useEffect with this final version.
+
+React.useEffect(() => {
+  if (!instance) {
+    return;
+  }
+
+  console.log("EFFECT: Setting up package.json watcher. Instance available:", !!instance);
+  
+  let watcher: { close: () => void; } | undefined;
+  let isCancelled = false; // Flag to prevent setup on component unmount
+
+  const setupFileWatcher = async () => {
+    // Poll the file system until package.json exists
+    while (!isCancelled) {
+      try {
+        await instance.fs.readFile("/package.json");
+        // File exists, break the loop and proceed
+        break;
+      } catch (err) {
+        // File doesn't exist yet, wait and try again
+        console.log("EFFECT: Waiting for package.json to be mounted...", err);
+        await new Promise(resolve => setTimeout(resolve, 250)); // Wait 250ms
+      }
+    }
+
+    if (isCancelled) return; // Don't setup if component unmounted while waiting
+
+    try {
+      watcher = instance.fs.watch("/package.json", (event) => {
+        if (event === "change") {
+          console.log("✅ SUCCESS: package.json change event detected!");
+          handlePackageJsonUpdate();
+        }
+      });
+      console.log("EFFECT: File watcher attached successfully.");
+    } catch (error) {
+      console.error("EFFECT_ERROR: Failed to attach file watcher.", error);
+    }
+  };
+
+  const handlePackageJsonUpdate = async () => {
+    // ... this function remains the same
+    try {
+      const newContent = await instance.fs.readFile("/package.json", "utf-8");
+      const {
+        templateData: currentTD,
+        openFiles: currentOpenFiles,
+        setTemplateData: setTD,
+        updateFileContent: updateFC,
+      } = useFileExplorer.getState();
+
+      if (!currentTD) return;
+
+      const updateInTree = (items: (TemplateFile | TemplateFolder)[]): (TemplateFile | TemplateFolder)[] => {
+        return items.map((item) => {
+          if ("filename" in item && item.filename === "package" && item.fileExtension === "json") {
+            return { ...item, content: newContent };
+          }
+          if ("folderName" in item) {
+            return { ...item, items: updateInTree(item.items) };
+          }
+          return item;
+        });
+      };
+
+      const updatedTemplateData = { ...currentTD, items: updateInTree(currentTD.items) };
+      setTD(updatedTemplateData);
+
+      const fileId = generateFileId({ filename: "package", fileExtension: "json", content: "" }, updatedTemplateData);
+      if (currentOpenFiles.some((f) => f.id === fileId)) {
+        updateFC(fileId, newContent);
+      }
+    } catch (error) {
+      console.error("Failed to process updated package.json:", error);
+    }
+  };
+
+  setupFileWatcher();
+
+  return () => {
+    isCancelled = true; // Set flag on cleanup
+    console.log("EFFECT: Cleaning up file watcher.");
+    watcher?.close();
+  };
+}, [instance]);
+
 
   // Create wrapper functions that pass saveTemplateData
   const wrappedHandleAddFile = useCallback(
