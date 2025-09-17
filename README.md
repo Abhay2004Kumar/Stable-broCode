@@ -1,6 +1,6 @@
 # 🚀 BroCode Editor
 
-A modern, feature-rich online code editor with WebContainer integration, AI-powered assistance, and multi-framework support.
+A modern, feature-rich online code editor with WebContainer integration, AI-powered assistance, multi-framework support, and an integrated online compiler.
 
 
 
@@ -9,7 +9,20 @@ A modern, feature-rich online code editor with WebContainer integration, AI-powe
 - **WebContainer Integration**: Run Node.js applications directly in the browser
 - **Multi-Framework Support**: Built-in templates for React, Next.js, Vue, and more
 - **AI-Powered Assistance**: Get code suggestions and chat with AI
-- **Real-time Collaboration**: Built with collaborative editing in mind
+- **Online Code Compiler**: Write, run, and debug code in multiple languages directly from your dashboard
+  - Powered by Judge0 API for reliable code execution
+  - Real-time code execution with detailed output
+  - Support for standard input (stdin)
+  - Detailed error reporting for compilation and runtime errors
+- **Supported Languages**:
+  - C++ (GCC 11.2.0)
+  - C (GCC 11.2.0)
+  - Python (3.11.2)
+  - JavaScript (Node.js 20.1.0)
+  - Java (OpenJDK 17.0.2)
+  - Go (1.20.1)
+  - Rust (1.70.0)
+
 - **Monaco Editor**: The same editor that powers VS Code
 - **Terminal Access**: Full terminal access within the browser
 - **Themes**: Dark/Light mode support
@@ -30,6 +43,9 @@ A modern, feature-rich online code editor with WebContainer integration, AI-powe
   <h3>📁 Dashboard</h3>
   <img src="Screenshot from 2025-09-14 20-29-12.png" alt="File Explorer" width="80%">
   
+  <h3>💻 Online Compiler</h3>
+  <img src="image.png" alt="Online Compiler" width="80%">
+  
   <h3>▶️ Demo Video</h3>
   <p>Watch the demo video on Google Drive: <a href="https://drive.google.com/file/d/1O47CElx0LnMNmgOK0WhQFo0r2wppQ0kw/view" target="_blank">BroCode Editor Demo</a></p>
 
@@ -39,6 +55,7 @@ A modern, feature-rich online code editor with WebContainer integration, AI-powe
 ## 🛠 Tech Stack
 
 - **Frontend**: Next.js 15, React 19, TypeScript
+- **Code Execution**: Judge0 API
 - **Styling**: Tailwind CSS, Radix UI
 - **Code Editing**: Monaco Editor, XTerm.js
 - **Containerization**: WebContainers API
