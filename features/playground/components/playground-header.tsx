@@ -54,7 +54,12 @@ export function PlaygroundHeader() {
             Save
           </Button>
 
-          <Button size="sm" variant="outline" onClick={handleSaveAll} disabled={!hasUnsavedChanges}>
+          <Button 
+            size="sm" 
+            variant="outline" 
+            onClick={handleSaveAll} 
+            disabled={!hasUnsavedChanges}
+          >
             <Save className="h-4 w-4 mr-2" />
             Save All
           </Button>

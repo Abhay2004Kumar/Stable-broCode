@@ -82,7 +82,7 @@ const ToggleAI: React.FC<ToggleAIProps> = ({
             size="sm" 
             variant={isEnabled ? "default" : "outline"}
             className={cn(
-              "relative gap-2 h-8 px-3 text-sm font-medium transition-all duration-200",
+              "relative gap-2 h-8 px-3 text-sm font-medium transition-all duration-200 cursor-pointer",
               isEnabled 
                 ? "bg-zinc-900 hover:bg-zinc-800 text-zinc-50 border-zinc-800 dark:bg-zinc-50 dark:hover:bg-zinc-200 dark:text-zinc-900 dark:border-zinc-200" 
                 : "bg-background hover:bg-accent text-foreground border-border",

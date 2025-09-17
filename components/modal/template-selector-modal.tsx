@@ -393,7 +393,10 @@ const TemplateSelectionModal = ({
                 </span>
               </div>
               <div className="flex gap-3">
-                <Button variant="outline" onClick={onClose}>
+                <Button 
+                  variant="outline" 
+                  onClick={onClose}
+                >
                   Cancel
                 </Button>
                 <Button

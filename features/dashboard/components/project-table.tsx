@@ -188,14 +188,14 @@ export default function ProjectTable({
           </TableHeader>
           <TableBody>
             {projects.map((project) => (
-              <TableRow key={project.id}>
+              <TableRow key={project.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-colors">
                 <TableCell className="font-medium">
                   <div className="flex flex-col">
                     <Link
                       href={`/playground/${project.id}`}
-                      className="hover:underline"
+                      className="hover:underline cursor-pointer"
                     >
-                      <span className="font-semibold">{project.title}</span>
+                      <span className="font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{project.title}</span>
                     </Link>
                     <span className="text-sm text-gray-500 line-clamp-1">
                       {project.description}
@@ -299,7 +299,7 @@ export default function ProjectTable({
 
       {/* Edit Project Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] [&>button]:cursor-pointer">
           <DialogHeader>
             <DialogTitle>Edit Project</DialogTitle>
             <DialogDescription>
@@ -341,6 +341,7 @@ export default function ProjectTable({
               variant="outline"
               onClick={() => setEditDialogOpen(false)}
               disabled={isLoading}
+              className="cursor-pointer"
             >
               Cancel
             </Button>
@@ -357,7 +358,7 @@ export default function ProjectTable({
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="[&>button]:cursor-pointer">
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Project</AlertDialogTitle>
             <AlertDialogDescription>
@@ -367,11 +368,11 @@ export default function ProjectTable({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isLoading} className="cursor-pointer">Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteProject}
               disabled={isLoading}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer"
             >
               {isLoading ? "Deleting..." : "Delete Project"}
             </AlertDialogAction>

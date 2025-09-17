@@ -22,7 +22,7 @@ const UserButton = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className={cn("relative rounded-full")}>
-          <Avatar>
+          <Avatar className="cursor-pointer">
             <AvatarImage src={user?.image!} alt={user?.name!} />
             <AvatarFallback className="bg-red-500">
               <User className="text-white" />

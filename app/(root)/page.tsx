@@ -22,7 +22,13 @@ export default function Home() {
     <div className=" z-20 flex flex-col items-center justify-start min-h-screen py-2 mt-10">
       
       <div className="flex flex-col justify-center items-center my-5">
-      <Image src={"/hero.svg"} alt="Hero-Section" height={500}  width={500}/>
+      <Image 
+        src={"/hero.svg"} 
+        alt="Hero-Section" 
+        height={500}  
+        width={500}
+        className="cursor-pointer"
+      />
       
       <h1 className=" z-20 text-6xl mt-5 font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-red-500 to-pink-500 dark:from-rose-400 dark:via-red-400 dark:to-pink-400 tracking-tight leading-[1.3] ">
         Intelligent Editor
@@ -38,7 +44,7 @@ export default function Home() {
       </p>
       <Button 
         variant={"brand"} 
-        className="mb-4" 
+        className="mb-4 cursor-pointer" 
         size={"lg"}
         onClick={handleGetStarted}
         disabled={isLoading}
