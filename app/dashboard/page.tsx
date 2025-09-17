@@ -1,7 +1,8 @@
 "use client";
 
 import AddNewButton from "@/features/dashboard/components/add-new-btn";
-import AddRepo from "@/features/dashboard/components/add-repo";
+import OnlineCompilerCard from "@/features/dashboard/components/go-to-compiler";
+
 import Image from "next/image";
 import ProjectTable from "@/features/dashboard/components/project-table";
 import { getAllPlaygroundForUser , deleteProjectById ,editProjectById , duplicateProjectById} from "@/features/playground/actions";
@@ -88,7 +89,7 @@ const DashboardMainPage = () => {
     <div className="flex flex-col justify-start items-center min-h-screen mx-auto max-w-7xl px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         <AddNewButton />
-        <AddRepo />
+        <OnlineCompilerCard />
       </div>
       <div className="mt-10 flex flex-col justify-center items-center w-full">
         {playgrounds.length === 0 ? (
