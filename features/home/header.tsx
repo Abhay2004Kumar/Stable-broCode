@@ -48,7 +48,7 @@ export function Header() {
                   {/* Desktop Navigation Links */}
                   <div className="hidden sm:flex items-center gap-4">
                     <Link
-                      href="https://abhay-kumar-pfolio.netlify.app/"
+                      href="https://portfolio-lac-psi-67.vercel.app/"
                       className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                     >
                       Portfolio
@@ -74,7 +74,7 @@ export function Header() {
                 {/* Mobile Navigation remains unchanged */}
                 <div className="flex sm:hidden items-center gap-4">
                   <Link
-                    href="https://abhay-kumar-pfolio.netlify.app/"
+                    href="https://portfolio-lac-psi-67.vercel.app/"
                     className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                   >
                     Portfolio
