@@ -3,7 +3,7 @@
 A modern, feature-rich online code editor with WebContainer integration, AI-powered assistance, multi-framework support, and an integrated online compiler.
 
 ## System Architecture
-![BroCode System Architecture](broCode.png)
+ <img src="broCOde.png" alt="Editor Interface" width="95%">
 
 ## ✨ Features
 
