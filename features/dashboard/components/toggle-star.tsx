@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { toggleStarMarked } from "@/features/playground/actions"
+import { useStarred } from "@/features/dashboard/context/starred-context"
 import { StarIcon, StarOffIcon } from "lucide-react"
 import type React from "react"
 import { useState, useEffect, forwardRef } from "react"
@@ -15,6 +16,15 @@ interface MarkedToggleButtonProps extends React.ComponentPropsWithoutRef<typeof 
 export const MarkedToggleButton = forwardRef<HTMLButtonElement, MarkedToggleButtonProps>(
   ({ markedForRevision, id, onClick, className, children, ...props }, ref) => {
     const [isMarked, setIsMarked] = useState(markedForRevision)
+    
+    // Try to use the context, but handle cases where it might not be available
+    let updatePlaygroundStar: ((playgroundId: string, starred: boolean) => void) | null = null
+    try {
+      const starredContext = useStarred()
+      updatePlaygroundStar = starredContext.updatePlaygroundStar
+    } catch (error) {
+      // Context not available, this is fine - component will still work without real-time updates
+    }
 
     useEffect(() => {
       setIsMarked(markedForRevision)
@@ -26,6 +36,11 @@ export const MarkedToggleButton = forwardRef<HTMLButtonElement, MarkedToggleButt
 
       const newMarkedState = !isMarked
       setIsMarked(newMarkedState)
+      
+      // Optimistically update the context immediately if available
+      if (updatePlaygroundStar) {
+        updatePlaygroundStar(id, newMarkedState)
+      }
 
       try {
         const res = await toggleStarMarked(id, newMarkedState)
@@ -38,12 +53,14 @@ export const MarkedToggleButton = forwardRef<HTMLButtonElement, MarkedToggleButt
           toast.success("Removed from Favorites successfully")
         }
 
-
-
       } catch (error) {
         console.error("Failed to toggle mark for revision:", error)
         setIsMarked(!newMarkedState) // Revert state if the update fails
-        // You might want to add a toast notification here for the user
+        // Revert context state if database update fails and context is available
+        if (updatePlaygroundStar) {
+          updatePlaygroundStar(id, !newMarkedState)
+        }
+        toast.error("Failed to update favorite status")
       }
     }
 

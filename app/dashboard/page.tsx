@@ -6,6 +6,7 @@ import OnlineCompilerCard from "@/features/dashboard/components/go-to-compiler";
 import Image from "next/image";
 import ProjectTable from "@/features/dashboard/components/project-table";
 import { getAllPlaygroundForUser , deleteProjectById ,editProjectById , duplicateProjectById} from "@/features/playground/actions";
+import { useStarred } from "@/features/dashboard/context/starred-context";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { Project } from "@/features/dashboard/types";
@@ -27,6 +28,7 @@ const EmptyState = () => (
 const DashboardMainPage = () => {
   const [playgrounds, setPlaygrounds] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { updatePlaygroundDetails, removePlayground } = useStarred();
 
   useEffect(() => {
     const fetchPlaygrounds = async () => {
@@ -49,6 +51,10 @@ const DashboardMainPage = () => {
   const handleDeleteProject = async (id: string): Promise<void> => {
     try {
       await deleteProjectById(id);
+      
+      // Remove from starred context immediately
+      removePlayground(id);
+      
       // Refresh the list after deletion
       const updatedPlaygrounds = await getAllPlaygroundForUser();
       setPlaygrounds((updatedPlaygrounds as Project[]) || []);
@@ -61,6 +67,10 @@ const DashboardMainPage = () => {
   const handleEditProject = async (id: string, data: { title: string; description: string }): Promise<void> => {
     try {
       await editProjectById(id, data);
+      
+      // Update the starred context immediately with new project details
+      updatePlaygroundDetails(id, { name: data.title });
+      
       // Refresh the list after editing
       const updatedPlaygrounds = await getAllPlaygroundForUser();
       setPlaygrounds((updatedPlaygrounds as Project[]) || []);

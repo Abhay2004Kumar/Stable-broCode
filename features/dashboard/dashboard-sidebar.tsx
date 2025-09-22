@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
@@ -39,14 +39,7 @@ import {
 import { SimpleThemeToggle } from "@/components/ui/toggle-theme"
 import UserButton from "../auth/components/user-button"
 import Image from "next/image"
-
-// Define the interface for a single playground item, icon is now a string
-interface PlaygroundData {
-  id: string
-  name: string
-  icon: string // Changed to string
-  starred: boolean
-}
+import { useStarred } from "./context/starred-context"
 
 // Map icon names (strings) to their corresponding LucideIcon components
 const lucideIconMap: Record<string, LucideIcon> = {
@@ -60,10 +53,12 @@ const lucideIconMap: Record<string, LucideIcon> = {
   // Add any other icons you might use dynamically
 }
 
-export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundData: PlaygroundData[] }) {
+export function DashboardSidebar() {
   const pathname = usePathname()
-  const [starredPlaygrounds, setStarredPlaygrounds] = useState(initialPlaygroundData.filter((p) => p.starred))
-  const [recentPlaygrounds, setRecentPlaygrounds] = useState(initialPlaygroundData)
+  const { playgrounds, getStarredPlaygrounds } = useStarred()
+  
+  const starredPlaygrounds = getStarredPlaygrounds()
+  const recentPlaygrounds = playgrounds
 
   return (
     <Sidebar variant="inset" collapsible="icon" className="border-1 border-r">

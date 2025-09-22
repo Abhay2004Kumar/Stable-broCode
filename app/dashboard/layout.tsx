@@ -1,5 +1,6 @@
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { DashboardSidebar } from "@/features/dashboard/dashboard-sidebar"
+import { StarredProvider } from "@/features/dashboard/context/starred-context"
 import { getAllPlaygroundForUser } from "@/features/playground/actions"
 import type React from "react"
 
@@ -54,11 +55,13 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full overflow-x-hidden">
-        {/* Pass the formatted data with string icon names */}
-        <DashboardSidebar initialPlaygroundData={formattedPlaygroundData} />
-        <main className="flex-1">{children}</main>
-      </div>
+      <StarredProvider initialPlaygroundData={formattedPlaygroundData}>
+        <div className="flex min-h-screen w-full overflow-x-hidden">
+          {/* Pass the formatted data with string icon names */}
+          <DashboardSidebar />
+          <main className="flex-1">{children}</main>
+        </div>
+      </StarredProvider>
     </SidebarProvider>
   )
 }
