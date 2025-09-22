@@ -30,14 +30,10 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={` ${poppins.className} antialiased`}
+        suppressHydrationWarning
       >
-        <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-        >
-            <div className="flex flex-col min-h-screen">
+        <ThemeProvider>
+            <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
               <Toaster/>
               <div className="flex-1">{children}</div>
             </div>

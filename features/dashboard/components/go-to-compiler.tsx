@@ -7,22 +7,22 @@ const OnlineCompilerCard = () => {
   return (
     <Link
       href="/dashboard/compiler"
-      className="group px-6 py-6 flex flex-row justify-between items-center border rounded-lg bg-muted cursor-pointer 
+      className="group px-6 py-6 flex flex-row justify-between items-center border rounded-lg bg-card cursor-pointer 
       transition-all duration-300 ease-in-out
-      hover:bg-background hover:border-[#E93F3F] hover:scale-[1.02]
-      shadow-[0_2px_10px_rgba(0,0,0,0.08)]
-      hover:shadow-[0_10px_30px_rgba(233,63,63,0.15)]"
+      hover:bg-card/80 hover:border-primary hover:scale-[1.02]
+      shadow-sm hover:shadow-lg hover:shadow-primary/20
+      dark:hover:bg-card/60"
     >
       <div className="flex flex-row justify-center items-start gap-4">
         <Button
           variant={"outline"}
-          className="flex justify-center items-center bg-white group-hover:bg-[#fff8f8] group-hover:border-[#E93F3F] group-hover:text-[#E93F3F] transition-colors duration-300"
+          className="flex justify-center items-center bg-background group-hover:bg-primary/5 group-hover:border-primary group-hover:text-primary transition-colors duration-300 shadow-sm"
           size={"icon"}
         >
           <Terminal size={30} className="transition-transform duration-300 group-hover:scale-110" />
         </Button>
         <div className="flex flex-col">
-          <h1 className="text-xl font-bold text-[#e93f3f]">Online Compiler</h1>
+          <h1 className="text-xl font-bold text-primary">Online Compiler</h1>
           <p className="text-sm text-muted-foreground max-w-[220px]">
             Write, run and debug code in multiple languages
           </p>
@@ -31,7 +31,7 @@ const OnlineCompilerCard = () => {
 
       <div className="relative overflow-hidden">
         <div className="w-[150px] h-[150px] flex items-center justify-center">
-          <div className="text-6xl">💻</div>
+          <div className="text-6xl opacity-80 group-hover:opacity-100 transition-opacity duration-300">💻</div>
         </div>
       </div>
     </Link>

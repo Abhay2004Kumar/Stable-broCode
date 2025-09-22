@@ -11,10 +11,16 @@ import { toast } from "sonner";
 import type { Project } from "@/features/dashboard/types";
 
 const EmptyState = () => (
-  <div className="flex flex-col items-center justify-center py-16">
-    <Image src="/empty-state.svg" alt="No projects" width={192} height={192} className="mb-4" />
-    <h2 className="text-xl font-semibold text-gray-500">No projects found</h2>
-    <p className="text-gray-400">Create a new project to get started!</p>
+  <div className="flex flex-col items-center justify-center py-16 animate-fade-in">
+    <Image 
+      src="/empty-state.svg" 
+      alt="No projects" 
+      width={192} 
+      height={192} 
+      className="mb-4 opacity-60" 
+    />
+    <h2 className="text-xl font-semibold text-muted-foreground">No projects found</h2>
+    <p className="text-muted-foreground/80">Create a new project to get started!</p>
   </div>
 );
 
@@ -78,20 +84,30 @@ const DashboardMainPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-        <p className="mt-4 text-gray-500">Loading projects...</p>
+      <div className="flex flex-col justify-center items-center min-h-screen bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <p className="mt-4 text-muted-foreground">Loading projects...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col justify-start items-center min-h-screen mx-auto max-w-7xl px-4 py-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-        <AddNewButton />
-        <OnlineCompilerCard />
+    <div className="flex flex-col justify-start items-center min-h-screen mx-auto max-w-7xl px-4 py-10 bg-background transition-colors duration-300">
+      <div className="w-full mb-8">
+        <h1 className="text-3xl font-bold text-foreground mb-2">Dashboard</h1>
+        <p className="text-muted-foreground">Manage your projects and start coding</p>
       </div>
-      <div className="mt-10 flex flex-col justify-center items-center w-full">
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-10">
+        <div className="card-hover">
+          <AddNewButton />
+        </div>
+        <div className="card-hover">
+          <OnlineCompilerCard />
+        </div>
+      </div>
+      
+      <div className="w-full">
         {playgrounds.length === 0 ? (
           <EmptyState />
         ) : (

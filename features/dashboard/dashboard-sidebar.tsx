@@ -19,6 +19,7 @@ import {
   Zap,
   Database,
   FlameIcon,
+  User,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -35,6 +36,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { SimpleThemeToggle } from "@/components/ui/toggle-theme"
+import UserButton from "../auth/components/user-button"
 import Image from "next/image"
 
 // Define the interface for a single playground item, icon is now a string
@@ -166,7 +169,14 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      {/* Sidebar footer removed */}
+      
+      <SidebarFooter className="p-4">
+        <div className="flex items-center justify-between w-full gap-2">
+          <UserButton />
+          <SimpleThemeToggle />
+        </div>
+      </SidebarFooter>
+      
       <SidebarRail />
     </Sidebar>
   )

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useRef } from "react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { Separator } from "@/components/ui/separator";
 import { generateFileId } from "@/features/playground/libs";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
@@ -16,6 +17,10 @@ import {
   Save,
   X,
   Settings,
+  Sun,
+  Moon,
+  Monitor,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -54,6 +59,12 @@ import { ConfirmationDialog } from "@/features/playground/components/dialogs/con
 
 const MainPlaygroundPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { setTheme, theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // UI state
   const [confirmationDialog, setConfirmationDialog] = useState({
@@ -525,6 +536,22 @@ React.useEffect(() => {
                       onClick={() => setIsPreviewVisible(!isPreviewVisible)}
                     >
                       {isPreviewVisible ? "Hide" : "Show"} Preview
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => setTheme("light")}>
+                      <Sun className="mr-2 h-4 w-4" />
+                      Light Theme
+                      {mounted && theme === "light" && <Check className="ml-auto h-4 w-4" />}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme("dark")}>
+                      <Moon className="mr-2 h-4 w-4" />
+                      Dark Theme
+                      {mounted && theme === "dark" && <Check className="ml-auto h-4 w-4" />}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme("system")}>
+                      <Monitor className="mr-2 h-4 w-4" />
+                      System Theme
+                      {mounted && theme === "system" && <Check className="ml-auto h-4 w-4" />}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={closeAllFiles}>
