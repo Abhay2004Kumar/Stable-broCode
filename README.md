@@ -64,7 +64,6 @@ A modern, feature-rich online code editor with WebContainer integration, AI-powe
 - **Authentication**: NextAuth.js
 - **Database**: Prisma with MongoDB
 - **State Management**: Zustand
-- **Form Handling**: React Hook Form with Zod
 - **UI Components**: Shadcn/UI
 
 ## 🚀 Getting Started
