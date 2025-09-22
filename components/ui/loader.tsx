@@ -12,12 +12,12 @@ const LoadingStep: React.FC<LoadingStepProps> = ({
 }) => (
   <div className="flex items-center gap-2 mb-2 justify-center h-screen">
     <div
-      className={`rounded-full p-1 ${
+      className={`rounded-full p-1 transition-all duration-300 ${
         currentStep === step
-          ? "bg-red-100"
+          ? "bg-blue-100 dark:bg-blue-900/30 ring-2 ring-blue-500/30"
           : currentStep > step
-          ? "bg-green-100"
-          : "bg-gray-100"
+          ? "bg-green-100 dark:bg-green-900/30"
+          : "bg-gray-100 dark:bg-gray-800"
       }`}
     >
       {currentStep > step ? (
@@ -35,18 +35,18 @@ const LoadingStep: React.FC<LoadingStepProps> = ({
           />
         </svg>
       ) : currentStep === step ? (
-        <Loader2 className="h-4 w-4 text-red-500 animate-spin" />
+        <Loader2 className="h-4 w-4 text-blue-500 animate-spin drop-shadow-sm" />
       ) : (
-        <div className="h-4 w-4 rounded-full bg-gray-300" />
+        <div className="h-4 w-4 rounded-full bg-gray-300 dark:bg-gray-600" />
       )}
     </div>
     <span
       className={`text-sm ${
         currentStep === step
-          ? "text-red-600 font-medium"
+          ? "text-blue-600 dark:text-blue-400 font-medium"
           : currentStep > step
-          ? "text-green-600"
-          : "text-gray-500"
+          ? "text-green-600 dark:text-green-400"
+          : "text-gray-500 dark:text-gray-400"
       }`}
     >
       {label}

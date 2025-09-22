@@ -54,6 +54,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { MarkedToggleButton } from "./toggle-star";
+import { useStarred } from "../context/starred-context";
 
 interface ProjectTableProps {
   projects: Project[];
@@ -78,6 +79,7 @@ export default function ProjectTable({
   onDuplicateProject,
   onMarkasFavorite,
 }: ProjectTableProps) {
+  const { playgrounds } = useStarred();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -87,6 +89,17 @@ export default function ProjectTable({
   });
   const [isLoading, setIsLoading] = useState(false);
   const [favoutrie, setFavourite] = useState(false);
+
+  // Helper function to get starred state from context with fallback to project data
+  const getProjectStarredState = (projectId: string, fallbackStarmark: any) => {
+    const playground = playgrounds.find(p => p.id === projectId);
+    // If we find the project in context, use that state (it's the most up-to-date)
+    if (playground !== undefined) {
+      return playground.starred;
+    }
+    // Otherwise fallback to the database state from props
+    return fallbackStarmark?.[0]?.isMarked ?? false;
+  };
 
   const handleEditClick = (project: Project) => {
     setSelectedProject(project);
@@ -205,7 +218,17 @@ export default function ProjectTable({
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className="bg-[#E93F3F15] text-[#E93F3F] border-[#E93F3F]"
+                    className={`
+                      transition-colors duration-300
+                      ${project.template === 'REACT' ? 'bg-cyan-500/10 text-cyan-600 border-cyan-500/30 hover:bg-cyan-500/20' :
+                      project.template === 'NEXTJS' ? 'bg-blue-500/10 text-blue-600 border-blue-500/30 hover:bg-blue-500/20' :
+                      project.template === 'VUE' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30 hover:bg-emerald-500/20' :
+                      project.template === 'ANGULAR' ? 'bg-purple-500/10 text-purple-600 border-purple-500/30 hover:bg-purple-500/20' :
+                      project.template === 'EXPRESS' ? 'bg-indigo-500/10 text-indigo-600 border-indigo-500/30 hover:bg-indigo-500/20' :
+                      project.template === 'HONO' ? 'bg-teal-500/10 text-teal-600 border-teal-500/30 hover:bg-teal-500/20' :
+                      'bg-blue-500/10 text-blue-600 border-blue-500/30 hover:bg-blue-500/20'
+                      }`
+                    }
                   >
                     {project.template}
                   </Badge>
@@ -238,7 +261,7 @@ export default function ProjectTable({
                     <DropdownMenuContent align="end" className="w-48">
                       <DropdownMenuItem asChild>
                         <MarkedToggleButton
-                          markedForRevision={project.Starmark[0]?.isMarked}
+                          markedForRevision={getProjectStarredState(project.id, project.Starmark)}
                           id={project.id}
                         />
                       </DropdownMenuItem>

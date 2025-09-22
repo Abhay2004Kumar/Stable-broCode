@@ -61,10 +61,10 @@ export function DashboardSidebar() {
   const recentPlaygrounds = playgrounds
 
   return (
-    <Sidebar variant="inset" collapsible="icon" className="border-1 border-r">
+    <Sidebar variant="inset" collapsible="icon" className="border-1 border-r glass-effect">
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 py-3 justify-center">
-          <Image src={"/logo.svg"} alt="logo" height={60} width={60} />
+        <div className="flex items-center gap-2 px-4 py-3 justify-center glow-blue rounded-lg">
+          <Image src={"/logo.svg"} alt="logo" height={60} width={60} className="hover:scale-110 transition-transform duration-300" />
         </div>
        
       </SidebarHeader>
@@ -92,12 +92,12 @@ export function DashboardSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>
-            <Star className="h-4 w-4 mr-2" />
+          <SidebarGroupLabel className="text-primary font-semibold">
+            <Star className="h-4 w-4 mr-2 text-blue-500" />
             Starred
           </SidebarGroupLabel>
-          <SidebarGroupAction title="Add starred playground">
-            <Plus className="h-4 w-4" />
+          <SidebarGroupAction title="Add starred playground" className="hover:glow-cyan transition-all duration-300">
+            <Plus className="h-4 w-4 text-cyan-400" />
           </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -113,10 +113,11 @@ export function DashboardSidebar() {
                         asChild
                         isActive={pathname === `/playground/${playground.id}`}
                         tooltip={playground.name}
+                        className="hover:neon-border hover:glow-blue transition-all duration-300"
                       >
-                        <Link href={`/playground/${playground.id}`}>
-                          {IconComponent && <IconComponent className="h-4 w-4" />}
-                          <span>{playground.name}</span>
+                        <Link href={`/playground/${playground.id}`} className="group">
+                          {IconComponent && <IconComponent className="h-4 w-4 text-blue-500 group-hover:text-cyan-400 transition-colors duration-300" />}
+                          <span className="group-hover:text-primary transition-colors duration-300">{playground.name}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -128,12 +129,12 @@ export function DashboardSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>
-            <History className="h-4 w-4 mr-2" />
+          <SidebarGroupLabel className="text-primary font-semibold">
+            <History className="h-4 w-4 mr-2 text-cyan-400" />
             Recent
           </SidebarGroupLabel>
-          <SidebarGroupAction title="Create new playground">
-            <FolderPlus className="h-4 w-4" />
+          <SidebarGroupAction title="Create new playground" className="hover:glow-blue transition-all duration-300">
+            <FolderPlus className="h-4 w-4 text-blue-500" />
           </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -150,10 +151,11 @@ export function DashboardSidebar() {
                         asChild
                         isActive={pathname === `/playground/${playground.id}`}
                         tooltip={playground.name}
+                        className="hover:neon-border hover:glow-cyan transition-all duration-300"
                       >
-                        <Link href={`/playground/${playground.id}`} className="w-full">
-                          {IconComponent && <IconComponent className="h-4 w-4 flex-shrink-0" />}
-                          <span className="truncate">{playground.name}</span>
+                        <Link href={`/playground/${playground.id}`} className="w-full group">
+                          {IconComponent && <IconComponent className="h-4 w-4 flex-shrink-0 text-cyan-400 group-hover:text-blue-500 transition-colors duration-300" />}
+                          <span className="truncate group-hover:text-primary transition-colors duration-300">{playground.name}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -165,7 +167,7 @@ export function DashboardSidebar() {
         </SidebarGroup>
       </SidebarContent>
       
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 glass-effect">
         <div className="flex items-center justify-between w-full gap-2">
           <UserButton />
           <SimpleThemeToggle />

@@ -36,23 +36,23 @@ const AddNewButton = () => {
     <>
       <div
         onClick={() => setIsModalOpen(true)}
-        className="group px-6 py-6 flex flex-row justify-between items-center border rounded-lg bg-card cursor-pointer 
-        transition-all duration-300 ease-in-out
-        hover:bg-card/80 hover:border-primary hover:scale-[1.02]
+        className="group px-6 py-6 flex flex-row justify-between items-center border rounded-xl bg-card cursor-pointer 
+        transition-all duration-300 ease-in-out glass-effect
+        hover:bg-card/80 hover:border-primary hover:scale-[1.02] hover:neon-border hover:glow-blue
         shadow-sm hover:shadow-lg hover:shadow-primary/20
-        dark:hover:bg-card/60"
+        dark:hover:bg-card/60 cyber-grid"
       >
         <div className="flex flex-row justify-center items-start gap-4">
           <Button
             variant={"outline"}
-            className="flex justify-center items-center bg-background group-hover:bg-primary/5 group-hover:border-primary group-hover:text-primary transition-colors duration-300 shadow-sm"
+            className="flex justify-center items-center bg-background group-hover:bg-primary/10 group-hover:border-cyan-400 group-hover:text-cyan-400 transition-all duration-300 shadow-sm hover:glow-cyan rounded-xl"
             size={"icon"}
           >
-            <Plus size={30} className="transition-transform duration-300 group-hover:rotate-90" />
+            <Plus size={30} className="transition-transform duration-300 group-hover:rotate-90 group-hover:text-cyan-400" />
           </Button>
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold text-primary">Add New</h1>
-            <p className="text-sm text-muted-foreground max-w-[220px]">Create a new playground</p>
+            <h1 className="text-xl font-bold text-primary group-hover:text-cyan-400 transition-colors duration-300">Add New</h1>
+            <p className="text-sm text-muted-foreground max-w-[220px] group-hover:text-blue-300 transition-colors duration-300">Create a new playground</p>
           </div>
         </div>
 
@@ -62,7 +62,7 @@ const AddNewButton = () => {
             alt="Create new playground"
             width={150}
             height={150}
-            className="transition-transform duration-300 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+            className="transition-all duration-300 group-hover:scale-110 opacity-80 group-hover:opacity-100 group-hover:drop-shadow-lg"
           />
         </div>
       </div>
