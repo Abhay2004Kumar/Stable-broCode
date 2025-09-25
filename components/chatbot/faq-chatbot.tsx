@@ -44,6 +44,7 @@ export default function FAQChatbot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const inputAreaRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -200,15 +201,36 @@ export default function FAQChatbot() {
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!isMobile) return;
     
+    // Allow normal interaction with input fields, buttons, and interactive elements
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'INPUT' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('button') || 
+        target.closest('input') ||
+        target.getAttribute('role') === 'button' ||
+        inputAreaRef.current?.contains(target)) {
+      return;
+    }
+    
     const touch = e.touches[0];
     setTouchStart({ x: touch.clientX, y: touch.clientY });
     
-    // Prevent default browser swipe behavior when chatbot is open
+    // Only prevent default for non-interactive elements
     e.preventDefault();
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isMobile || !touchStart) return;
+    
+    // Allow normal interaction with input fields and buttons
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'INPUT' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('button') || 
+        target.closest('input') ||
+        inputAreaRef.current?.contains(target)) {
+      return;
+    }
     
     // Prevent scrolling and browser navigation during gesture
     e.preventDefault();
@@ -216,6 +238,16 @@ export default function FAQChatbot() {
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!isMobile || !touchStart) return;
+    
+    // Allow normal interaction with input fields and buttons
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'INPUT' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('button') || 
+        target.closest('input') ||
+        inputAreaRef.current?.contains(target)) {
+      return;
+    }
     
     const touch = e.changedTouches[0];
     const endPos = { x: touch.clientX, y: touch.clientY };
@@ -439,7 +471,7 @@ export default function FAQChatbot() {
             </div>
 
             {/* Input */}
-            <div className={`${isMobile ? 'p-3' : 'p-4'} border-t border-blue-500/20 bg-background/95 mt-auto`}>
+            <div ref={inputAreaRef} className={`${isMobile ? 'p-3' : 'p-4'} border-t border-blue-500/20 bg-background/95 mt-auto`}>
               <div className="flex gap-2 items-end">
                 <div className="flex-1 relative">
                   <Input
