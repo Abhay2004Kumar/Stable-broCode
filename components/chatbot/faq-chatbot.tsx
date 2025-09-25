@@ -40,9 +40,10 @@ export default function FAQChatbot() {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -85,6 +86,33 @@ export default function FAQChatbot() {
       }, 100);
     }
   }, [isOpen, isMinimized, isMobile]);
+
+  // Prevent browser navigation gestures on mobile when chatbot is open
+  useEffect(() => {
+    if (!isMobile || !isOpen) return;
+
+    const preventDefault = (e: Event) => {
+      // Only prevent gestures that could interfere with chatbot
+      const target = e.target as Element;
+      const chatContainer = chatContainerRef.current;
+      
+      if (chatContainer && chatContainer.contains(target)) {
+        e.preventDefault();
+      }
+    };
+
+    // Add event listeners to prevent browser navigation gestures within chatbot
+    document.addEventListener('gesturestart', preventDefault, { passive: false });
+    document.addEventListener('gesturechange', preventDefault, { passive: false });
+    document.addEventListener('gestureend', preventDefault, { passive: false });
+
+    return () => {
+      // Remove event listeners
+      document.removeEventListener('gesturestart', preventDefault);
+      document.removeEventListener('gesturechange', preventDefault);
+      document.removeEventListener('gestureend', preventDefault);
+    };
+  }, [isMobile, isOpen]);
 
   const simulateTyping = async (): Promise<void> => {
     setIsTyping(true);
@@ -168,25 +196,56 @@ export default function FAQChatbot() {
     handleSendMessage(suggestion);
   };
 
-  // Touch handlers for mobile swipe-to-close
+  // Enhanced touch handlers for mobile with better gesture control
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (isMobile) {
-      setTouchStart(e.touches[0].clientY);
-    }
+    if (!isMobile) return;
+    
+    const touch = e.touches[0];
+    setTouchStart({ x: touch.clientX, y: touch.clientY });
+    
+    // Prevent default browser swipe behavior when chatbot is open
+    e.preventDefault();
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isMobile || !touchStart) return;
+    
+    // Prevent scrolling and browser navigation during gesture
+    e.preventDefault();
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!isMobile || !touchStart) return;
     
-    const touchEnd = e.changedTouches[0].clientY;
-    const diff = touchStart - touchEnd;
+    const touch = e.changedTouches[0];
+    const endPos = { x: touch.clientX, y: touch.clientY };
     
-    // If swipe down is more than 100px, close the chat
-    if (diff < -100) {
-      setIsOpen(false);
+    const deltaX = endPos.x - touchStart.x;
+    const deltaY = endPos.y - touchStart.y;
+    
+    const distanceX = Math.abs(deltaX);
+    const distanceY = Math.abs(deltaY);
+    
+    // Determine swipe direction and handle accordingly
+    if (distanceY > 100 && distanceY > distanceX) {
+      // Vertical swipe
+      if (deltaY > 0) {
+        // Swipe down - close chatbot
+        setIsOpen(false);
+      }
+    } else if (distanceX > 100 && distanceX > distanceY) {
+      // Horizontal swipe
+      if (deltaX > 0) {
+        // Swipe right - close chatbot (alternative gesture)
+        setIsOpen(false);
+      }
     }
     
-    setTouchStart(0);
+    // Reset touch state
+    setTouchStart(null);
+    
+    // Prevent default to stop browser navigation
+    e.preventDefault();
   };
 
   if (!isOpen) {
@@ -205,19 +264,25 @@ export default function FAQChatbot() {
   }
 
   return (
-    <div className={`fixed z-50 ${isMobile ? 'inset-4' : 'bottom-6 right-6'}`}>
-      <div className={`${
-        isMobile 
-          ? isMinimized 
-            ? 'w-full h-16 bottom-0 right-0 absolute' 
-            : 'w-full h-full max-h-[calc(100vh-2rem)]'
-          : `w-96 ${isMinimized ? 'h-16' : 'h-[580px]'}`
-      } rounded-lg border border-blue-500/30 shadow-2xl backdrop-blur-sm bg-background/95 transition-all duration-300 overflow-hidden flex flex-col`}>
+    <div className={`fixed z-50 ${isMobile ? 'bottom-4 right-4 left-4' : 'bottom-6 right-6'}`}>
+      <div 
+        ref={chatContainerRef}
+        className={`${
+          isMobile 
+            ? isMinimized 
+              ? 'w-full h-16' 
+              : 'w-full h-[70vh] max-h-[500px] min-h-[400px] flex flex-col'
+            : `w-96 ${isMinimized ? 'h-16' : 'h-[580px]'} flex flex-col`
+        } rounded-lg border border-blue-500/30 shadow-2xl backdrop-blur-sm bg-background/95 transition-all duration-300 overflow-hidden ${
+          isMobile ? 'touch-none select-none' : ''
+        }`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* Header */}
         <div 
-          className={`${isMobile ? 'p-3' : 'px-5 py-4'} relative overflow-hidden flex-shrink-0 cursor-pointer`}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
+          className={`${isMobile ? 'p-3' : 'px-5 py-4'} relative overflow-hidden flex-shrink-0 ${isMobile ? 'cursor-default' : 'cursor-pointer'}`}
         >
           {/* Background with gradient and pattern */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/8 via-cyan-500/6 to-blue-500/8" />
@@ -253,8 +318,8 @@ export default function FAQChatbot() {
                 </div>
                 <div className="flex items-center gap-2 mt-0.5">
                   <div className={`h-1.5 w-1.5 rounded-full ${isTyping ? 'bg-orange-500 animate-pulse' : 'bg-green-500'} shadow-sm`} />
-                  <p className={`${isMobile ? 'text-[10px]' : 'text-sm'} text-muted-foreground/80 font-medium truncate`}>
-                    {isTyping ? "Processing your request..." : isMobile ? "Swipe down to close" : "Ready to assist with coding"}
+                  <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground/80 font-medium truncate`}>
+                    {isTyping ? "Processing your request..." : "Ready to assist with coding"}
                   </p>
                 </div>
               </div>
@@ -262,9 +327,6 @@ export default function FAQChatbot() {
             
             {/* Action Buttons */}
             <div className="flex items-center gap-1.5 flex-shrink-0">
-              {isMobile && (
-                <div className="w-8 h-1.5 bg-gradient-to-r from-blue-500/30 to-cyan-500/30 rounded-full mr-2" />
-              )}
               {!isMobile && (
                 <Button
                   variant="ghost"
@@ -282,10 +344,10 @@ export default function FAQChatbot() {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`${isMobile ? 'h-7 w-7' : 'h-9 w-9'} p-0 hover:bg-red-500/10 hover:border-red-500/20 border border-transparent transition-all duration-200 rounded-lg group`}
+                className={`${isMobile ? 'h-8 w-8' : 'h-9 w-9'} p-0 hover:bg-red-500/10 hover:border-red-500/20 border border-transparent transition-all duration-200 rounded-lg group`}
                 onClick={() => setIsOpen(false)}
               >
-                <X className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} text-muted-foreground group-hover:text-red-500 transition-colors`} />
+                <X className={`${isMobile ? 'h-4 w-4' : 'h-4 w-4'} text-muted-foreground group-hover:text-red-500 transition-colors`} />
               </Button>
             </div>
           </div>
