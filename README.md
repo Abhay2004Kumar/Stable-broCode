@@ -9,7 +9,7 @@ A modern, feature-rich online code editor with WebContainer integration, AI-powe
 
 - **WebContainer Integration**: Run Node.js applications directly in the browser
 - **Multi-Framework Support**: Built-in templates for React, Next.js, Vue, and more
-- **AI-Powered Assistance**: Get code suggestions and chat with AI
+- **AI-Powered Assistance**: Get code suggestions, chat with AI and faq-chatbot
 - **Online Code Compiler**: Write, run, and debug code in multiple languages directly from your dashboard
   - Powered by Judge0 API for reliable code execution
   - Real-time code execution with detailed output
