@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-providers";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default async function RootLayout({
               <div className="flex-1">{children}</div>
             </div>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
     </SessionProvider>
