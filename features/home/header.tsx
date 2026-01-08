@@ -44,14 +44,14 @@ export function Header() {
                       BroCode
                     </span>
                   </Link>
-                  <span className="text-zinc-300 dark:text-zinc-700">|</span>
+                  {/* <span className="text-zinc-300 dark:text-zinc-700">|</span> */}
                   {/* Desktop Navigation Links */}
                   <div className="hidden sm:flex items-center gap-4">
-                    <Link
+                    {/* <Link
                       href="https://portfolio-lac-psi-67.vercel.app/"
                       className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
-                    >
-                      Portfolio
+                    > */}
+                      {/* Portfolio */}
                     </Link>
                     {/* <Link
                                             href="/pricing"
